@@ -124,7 +124,7 @@ dummySchema.pre(/^find/, function(next) {
 
 dummySchema.pre("save", function(next) {
   this.slug = slugify(this.name, { lower: true });
-  console.log(this);
+  // console.log(this);
   next();
 })
 

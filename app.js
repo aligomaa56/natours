@@ -9,6 +9,7 @@ const globalErrorHandler = require('./src/controllers/errorController');
 const AppError = require('./src/utils/appError');
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const compression = require('compression');
 
 
 const viewRouter = require('./src/routes/viewRouters');
@@ -79,6 +80,9 @@ app.use(hpp({
     'price'
   ]
 }));
+
+// Compress all text sent to clients
+app.use(compression());
 
 // Test middleware
 app.use((req, res, next) => {
