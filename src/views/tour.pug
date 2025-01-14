@@ -1,0 +1,49 @@
+extends base
+
+block content
+  .full-page
+    .full-page__header
+      .full-page__picture
+        img.full-page__picture-img(src=`/img/cover.jpg`, alt=`${dummy.name}`)
+      h1.full-page__title= dummy.name
+
+    .full-page__details
+      .full-page__section
+        h2.full-page__sub-heading Overview
+        p.full-page__text Breathtaking hike through the Canadian Banff National Park
+        .full-page__data
+          svg.full-page__icon(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512")
+            path(d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z")
+          span= dummy.startLocation.description
+        .full-page__data
+          svg.full-page__icon(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512")
+            path(d="M128 0c17.7 0 32 14.3 32 32l0 32 128 0 0-32c0-17.7 14.3-32 32-32s32 14.3 32 32l0 32 48 0c26.5 0 48 21.5 48 48l0 48H0l0-48c0-26.5 21.5-48 48-48l48 0 0-32c0-17.7 14.3-32 32-32zM0 192l448 0 0 272c0 26.5-21.5 48-48 48L48 512c-26.5 0-48-21.5-48-48L0 192zm64 80l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0c-8.8 0-16 7.2-16 16zm128 0l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0c-8.8 0-16 7.2-16 16zm144-16c-8.8 0-16 7.2-16 16l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0zM64 400l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0c-8.8 0-16 7.2-16 16zm144-16c-8.8 0-16 7.2-16 16l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0zm112 16l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0c-8.8 0-16 7.2-16 16z")
+          span= dummy.startDate[0].toLocaleString('en-US', {month: 'long', day: '2-digit'})
+        .full-page__data
+          svg.full-page__icon(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512")
+            path(d="M32 0C49.7 0 64 14.3 64 32l0 16 69-17.2c38.1-9.5 78.3-5.1 113.5 12.5c46.3 23.2 100.8 23.2 147.1 0l9.6-4.8C423.8 28.1 448 43.1 448 66.1l0 279.7c0 13.3-8.3 25.3-20.8 30l-34.7 13c-46.2 17.3-97.6 14.6-141.7-7.4c-37.9-19-81.3-23.7-122.5-13.4L64 384l0 96c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-80 0-66L0 64 0 32C0 14.3 14.3 0 32 0zM64 187.1l64-13.9 0 65.5L64 252.6 64 318l48.8-12.2c5.1-1.3 10.1-2.4 15.2-3.3l0-63.9 38.9-8.4c8.3-1.8 16.7-2.5 25.1-2.1l0-64c13.6 .4 27.2 2.6 40.4 6.4l23.6 6.9 0 66.7-41.7-12.3c-7.3-2.1-14.8-3.4-22.3-3.8l0 71.4c21.8 1.9 43.3 6.7 64 14.4l0-69.8 22.7 6.7c13.5 4 27.3 6.4 41.3 7.4l0-64.2c-7.8-.8-15.6-2.3-23.2-4.5l-40.8-12 0-62c-13-3.8-25.8-8.8-38.2-15c-8.2-4.1-16.9-7-25.8-8.8l0 72.4c-13-.4-26 .8-38.7 3.6L128 173.2 128 98 64 114l0 73.1zM320 335.7c16.8 1.5 33.9-.7 50-6.8l14-5.2 0-71.7-7.9 1.8c-18.4 4.3-37.3 5.7-56.1 4.5l0 77.4zm64-149.4l0-70.8c-20.9 6.1-42.4 9.1-64 9.1l0 69.4c13.9 1.4 28 .5 41.7-2.6l22.3-5.2z")
+          span= `${dummy.locations.length} stops`
+        .full-page__data
+          svg.full-page__icon(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512")
+            path(d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z")
+          span 15 people
+
+      .full-page__section
+        h2.full-page__sub-heading Pricing
+        p.full-page__text
+          span.full-page__footer-value= `$${dummy.price}`
+          | 
+          span.full-page__footer-text per person
+
+      .full-page__section
+        h2.full-page__sub-heading Ratings
+        p.full-page__text
+          span.full-page__footer-value= `${dummy.ratingsAverage}`
+          | 
+          span.full-page__footer-text= `rating (${dummy.ratingsQuantity})`
+
+    .full-page__footer
+      if user
+        button#book-tour.btn.btn--green.btn--small(data-tour-id=`${dummy.id}`) Book Now
+      else
+        a.btn.btn--green.btn--small(href="/login") Login to book tour

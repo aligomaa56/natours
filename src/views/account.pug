@@ -1,0 +1,57 @@
+extends base
+
+block content
+  main.main
+    .account
+      .account__details
+        h2.heading-secondary Your Account Details
+        .account__info
+          p.account__info-item
+            span.account__info-label Photo:
+            span.account__info-value
+              img.account__photo(src=`/img/users/${user.photo}` || "/img/users/default.png", alt="User photo")
+          p.account__info-item
+            span.account__info-label Name:
+            span.account__info-value= user.name
+          p.account__info-item
+            span.account__info-label Email:
+            span.account__info-value= user.email
+          p.account__info-item
+            span.account__info-label Role:
+            span.account__info-value= user.role
+          p.account__info-item
+            span.account__info-label Status:
+            span.account__info-value= user.active ? 'Active' : 'Inactive'
+
+      .account__update
+        h2.heading-secondary Update Account Information
+        form.form.form--account
+          .form__group
+            label.form__label(for='name') New Name
+            input#name.form__input(type='text', placeholder='Enter your new name', required, value=`${user.name}`, name='name')
+          .form__group
+            label.form__label(for='email') New Email
+            input#email.form__input(type='email', placeholder='Enter your new email', value=`${user.email}`, required, name='email')
+          .form__group
+            input#photo.form__upload(type="file", accept="image/*", name="photo")
+          .form__group
+            button.btn.btn--green Update Account
+
+      .account__password
+        h2.heading-secondary Change Password
+        form.form.form--password
+          .form__group
+            label.form__label(for='password-current') Current Password
+            input#password-current.form__input(type='password', placeholder='••••••••', required, minlength='8')
+          .form__group
+            label.form__label(for='password') New Password
+            input#password.form__input(type='password', placeholder='••••••••', required, minlength='8')
+          .form__group
+            label.form__label(for='password-confirm') Confirm New Password
+            input#password-confirm.form__input(type='password', placeholder='••••••••', required, minlength='8')
+          .form__group
+            button.btn.btn--green.btn--save-password Save Password
+      
+      .account__bookings
+        h2.heading-secondary Your Bookings
+        a.btn.btn--green(href='/my-tours') View Your Booked Tours
