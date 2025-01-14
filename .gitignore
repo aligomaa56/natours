@@ -2,3 +2,4 @@
 node_modules
 addDummy.js
 .cache
+.vercel

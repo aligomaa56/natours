@@ -40,7 +40,7 @@ const sendErrorDev = (err, req, res) => {
     });
     // B) RENDERED WEBSITE
   }
-  console.log('ERROR 💥', err);
+  console.log('DEV-ERROR 💥', err);
   return res.status(err.statusCode).render('error', {
     title: 'Something went wrong!',
     msg: err.message,
@@ -56,7 +56,7 @@ const sendErrorProd = (err, req, res) => {
         message: err.message,
       });
     }
-    console.error('ERROR 💥', err);
+    console.error('PROD-ERROR 💥', err);
     return res.status(500).json({
       status: 'error',
       message: 'Something went very wrong!',
