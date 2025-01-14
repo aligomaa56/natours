@@ -20,6 +20,8 @@ const bookingRouter = require('./src/routes/bookingRouters');
 
 const app = express();
 
+app.enable('trust proxy');
+
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'src/views'));
 
