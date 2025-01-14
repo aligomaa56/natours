@@ -57,7 +57,11 @@ const limiter = rateLimit({
   windowMs: 60 * 60 * 1000,
   message: {status: 'fail',
     message: 'Too many requests from this IP, please try again in an hour'
-  }
+  },
+  keyGenerator: (req) => {
+    // Use the first IP in the X-Forwarded-For header (if present)
+    return req.headers['x-forwarded-for']?.split(',')[0] || req.ip;
+  },
 });
 app.use('/api', limiter);
 // Body parser, reading data from body into req.body
