@@ -40,7 +40,7 @@ const sendErrorDev = (err, req, res) => {
     });
     // B) RENDERED WEBSITE
   }
-  console.log('DEV-ERROR 💥', err);
+  console.log('REND-DEV | ERROR 💥', err);
   return res.status(err.statusCode).render('error', {
     title: 'Something went wrong!',
     msg: err.message,
@@ -56,7 +56,7 @@ const sendErrorProd = (err, req, res) => {
         message: err.message,
       });
     }
-    console.error('PROD|ERROR 💥', err);
+    console.error('API-PROD | ERROR 💥', err);
     return res.status(500).json({
       status: 'error',
       message: 'Something went very wrong!',
@@ -69,7 +69,7 @@ const sendErrorProd = (err, req, res) => {
       msg: err.message,
     });
   }
-  console.error('DEV|ERROR 💥', err);
+  console.error('REND-PROD | ERROR 💥', err);
   res.status(500).render('error', {
     title: 'Something went wrong!',
     msg: 'Please try again later.',
