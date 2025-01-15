@@ -10,6 +10,7 @@ const AppError = require('./src/utils/appError');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
+const cors = require('cors');
 
 
 const viewRouter = require('./src/routes/viewRouters');
@@ -25,7 +26,17 @@ app.enable('trust proxy');
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'src/views'));
 
+
 // 1) GLOBAL MIDDLEWARES
+// Implement CORS
+app.use(cors());
+// Access-Control-Allow-Origin *
+// app.use(cors({
+//   origin: 'http://localhost:3000',
+// }));
+
+app.options('*', cors());
+// app.options('/api/v1/tours/:id', cors());s
 
 app.use(express.static(path.join(__dirname, 'src/public')));
 
