@@ -21,7 +21,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
           currency: 'usd',
           product_data: {
             name: `${dummy.name} Tour`,
-            images: [`${req.protocol}://${req.get('host')}/img/dummies/${dummy.imageCover}`],
+            // images: [`${req.protocol}://${req.get('host')}/img/dummies/${dummy.imageCover}`],
           },
           unit_amount: dummy.price * 100,
         },
@@ -38,17 +38,17 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 
 const createBookingCheckout = async session => {
   try {
-    // console.log('Creating booking checkout for session:', session);
+    console.log('Creating booking checkout for session:', session);
     
     const dummy = session.client_reference_id;
     const user = (await User.findOne({ email: session.customer_details.email })).id;
     const price = session.amount_total / 100;
     
     await Booking.create({ dummy, user, price });
-    // console.log('Booking created successfully:', booking);
+    console.log('Booking created successfully:', booking);
     
   } catch (error) {
-    // console.error('Error creating booking:', error);
+    console.error('Error creating booking:', error);
     throw error; // Re-throw to handle it in the webhook handler
   }
 };
@@ -64,7 +64,7 @@ exports.webhookCheckout = async (req, res, next) => {
       process.env.STRIPE_WEBHOOK_SECRET
     );
   } catch (err) {
-    // console.error('Webhook signature verification failed:', err);
+    console.error('Webhook signature verification failed:', err);
     return res.status(400).send(`Webhook error: ${err.message}`);
   }
 
@@ -73,7 +73,7 @@ exports.webhookCheckout = async (req, res, next) => {
       await createBookingCheckout(event.data.object);
       res.status(200).json({ received: true });
     } catch (error) {
-      // console.error('Error processing checkout session:', error);
+      console.error('Error processing checkout session:', error);
       res.status(500).json({ error: 'Failed to process checkout session' });
     }
   } else {
