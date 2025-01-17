@@ -38,14 +38,14 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 
 const createBookingCheckout = async session => {
   try {
-    console.log('Creating booking checkout for session:', session);
+    // console.log('Creating booking checkout for session:', session);
     
     const dummy = session.client_reference_id;
     const user = (await User.findOne({ email: session.customer_details.email })).id;
     const price = session.amount_total / 100;
     
     await Booking.create({ dummy, user, price });
-    console.log('Booking created successfully:', booking);
+    // console.log('Booking created successfully:', booking);
     
   } catch (error) {
     console.error('Error creating booking:', error);
