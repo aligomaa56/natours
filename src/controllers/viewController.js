@@ -4,21 +4,29 @@ const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const Booking = require('../models/bookingModel');
 
+exports.alerts = (req, res, next) => {
+  const { alert } = req.query;
+  if (alert === 'booking') {
+    res.locals.alert = `Your booking was successful! Please check your email for a confirmation.
+    If your booking doesn\'t show up here immediately, please come back later.`;
+  }
+  next();
+};
+
 exports.getOverview = catchAsync(async (req, res, next) => {
   const dummies = await Dummy.find();
 
   res.status(200).render('overview', {
     title: 'All Tours',
-    dummies
+    dummies,
   });
 });
 
 exports.getTour = catchAsync(async (req, res, next) => {
-
   const dummy = await Dummy.findOne({ slug: req.params.slug }).populate({
     path: 'reviews',
-    fields: 'review rating user'
-  })
+    fields: 'review rating user',
+  });
 
   if (!dummy) {
     return next(new AppError('There is no tour with that name.', 404));
@@ -26,19 +34,19 @@ exports.getTour = catchAsync(async (req, res, next) => {
 
   res.status(200).render('tour', {
     title: 'The Forest Hiker',
-    dummy
+    dummy,
   });
 });
 
 exports.getLoginForm = catchAsync(async (req, res, next) => {
   res.status(200).render('login', {
-    title: 'Log into your account'
+    title: 'Log into your account',
   });
-})
+});
 
 exports.getAccount = catchAsync(async (req, res, next) => {
   res.status(200).render('account', {
-    title: 'Your account'
+    title: 'Your account',
   });
 });
 
@@ -47,11 +55,11 @@ exports.getMyTours = catchAsync(async (req, res, next) => {
   const bookings = await Booking.find({ user: req.user.id });
 
   // 2) Find tours with the returned IDs
-  const dummyIDs = bookings.map(el => el.dummy);
+  const dummyIDs = bookings.map((el) => el.dummy);
   const dummies = await Dummy.find({ _id: { $in: dummyIDs } });
 
   res.status(200).render('overview', {
     title: 'My Tours',
-    dummies
+    dummies,
   });
-})
+});
