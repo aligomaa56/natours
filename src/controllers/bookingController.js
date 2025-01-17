@@ -11,9 +11,6 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
     mode: 'payment',
-    // success_url: `${req.protocol}://${req.get('host')}/?dummy=${
-    //   req.params.tourId
-    // }&user=${req.user.id}&price=${dummy.price}`,
     success_url: `${req.protocol}://${req.get('host')}/my-tours`,
     cancel_url: `${req.protocol}://${req.get('host')}/tours/${dummy.slug}`,
     customer_email: req.user.email,
@@ -39,25 +36,25 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   });
 });
 
-
-// exports.createBookingCheckout = catchAsync(async (req, res, next) => {
-//   // This is only TEMPORARY, because it's UNSECURE: everyone can make bookings without paying
-//   const { dummy, user, price } = req.query;
-
-//   if (!dummy && !user && !price) return next();
-//   await Booking.create({ dummy, user, price });
-
-//   res.redirect(req.originalUrl.split('?')[0]);
-// });
-
 const createBookingCheckout = async session => {
-  const dummy = session.client_reference_id;
-  const user = (await User.findOne({ email: session.customer_email })).id;
-  const price = session.amount_total / 100;
-  await Booking.create({ dummy, user, price });
-}
+  try {
+    console.log('Creating booking checkout for session:', session);
+    
+    const dummy = session.client_reference_id;
+    const user = (await User.findOne({ email: session.customer_details.email })).id;
+    const price = session.amount_total / 100;
+    
+    const booking = await Booking.create({ dummy, user, price });
+    console.log('Booking created successfully:', booking);
+    
+  } catch (error) {
+    console.error('Error creating booking:', error);
+    throw error; // Re-throw to handle it in the webhook handler
+  }
+};
 
-exports.webhookCheckout = (req, res, next) => {
+
+exports.webhookCheckout = async (req, res, next) => {
   const signature = req.headers['stripe-signature'];
 
   let event;
@@ -68,14 +65,23 @@ exports.webhookCheckout = (req, res, next) => {
       process.env.STRIPE_WEBHOOK_SECRET
     );
   } catch (err) {
+    console.error('Webhook signature verification failed:', err);
     return res.status(400).send(`Webhook error: ${err.message}`);
   }
 
-  if (event.type === 'checkout.session.completed')
-    createBookingCheckout(event.data.object);
+  if (event.type === 'checkout.session.completed') {
+    try {
+      await createBookingCheckout(event.data.object);
+      res.status(200).json({ received: true });
+    } catch (error) {
+      console.error('Error processing checkout session:', error);
+      res.status(500).json({ error: 'Failed to process checkout session' });
+    }
+  } else {
+    res.status(200).json({ received: true });
+  }
+};
 
-  res.status(200).json({ received: true });
-}
 
 exports.createBooking = factory.createOne(Booking);
 exports.getBooking = factory.getOne(Booking);
