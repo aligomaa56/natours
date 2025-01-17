@@ -7,7 +7,7 @@ html(lang="en")
       link(rel="shortcut icon", type="image/png", href="/img/forest.png")
       link(rel="stylesheet", href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap")
       title Tours | #{title}
-  body(data-alert=`${alert} ? 'alert' : ''`)
+  body(data-alert=`${alert ? alert : ''}`)
       // HEADER
       include _header
 
