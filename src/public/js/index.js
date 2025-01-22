@@ -19,10 +19,21 @@ if (loginForm){
   });
 }
 
+// if (logOutBtn) {
+//   logOutBtn.addEventListener('click', (e) => {
+//     e.preventDefault();
+//     logout();
+//   });
+// }
+
 if (logOutBtn) {
-  logOutBtn.addEventListener('click', (e) => {
+  logOutBtn.addEventListener('click', async (e) => {
     e.preventDefault();
-    logout();
+    try {
+      await logout();
+    } catch (err) {
+      showAlert('error', 'Error logging out! Try again.');
+    }
   });
 }
 
