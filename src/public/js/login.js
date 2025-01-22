@@ -6,11 +6,10 @@ export const login = async (email, password) => {
     const res = await axios({
       method: 'POST',
       url: '/api/v1/users/login',
-      data: {
-        email,
-        password,
-      },
+      data: { email, password },
+      withCredentials: true
     });
+
     if (res.data.status === 'success') {
       showAlert('success', 'Logged in successfully!');
       window.setTimeout(() => {
@@ -18,18 +17,23 @@ export const login = async (email, password) => {
       }, 1000);
     }
   } catch (err) {
-    showAlert('error', err.response.data.message);
+    showAlert('error', err.response?.data?.message || 'Login failed');
   }
 };
 
 export const logout = async () => {
   try {
     const res = await axios({
-      method: 'GET',
+      method: 'POST',
       url: '/api/v1/users/logout',
+      withCredentials: true
     });
-    if (res.data.status === 'success') location.reload(true);
+
+    if (res.data.status === 'success') {
+      // Redirect to home with cache busting
+      window.location.href = '/'; 
+    }
   } catch (err) {
-    showAlert('error', 'Error logging out! Try again.');
+    showAlert('error', 'Logout failed. Please try again.');
   }
-}
+};
