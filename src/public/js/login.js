@@ -24,7 +24,7 @@ export const login = async (email, password) => {
 export const logout = async () => {
   try {
     const res = await axios({
-      method: 'POST',
+      method: 'GET',
       url: '/api/v1/users/logout',
       withCredentials: true
     });
